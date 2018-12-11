@@ -64,4 +64,27 @@ public class DataAccess {
         }
         return userDBList;
     }
+        
+    public ArrayList getDBEmployees(ResultSet rs){
+        ArrayList<Employee> Employees = new ArrayList<Employee>();
+        try{
+            while(rs.next()){
+                Employee e = new Employee();
+                e.setName(rs.getString("NAME"));
+                e.setFirstName(rs.getString("FIRSTNAME"));
+                e.setHomePhone(rs.getString("HOMEPHONE"));
+                e.setMobilePhone(rs.getString("MOBILEPHONE"));
+                e.setWorkPhone(rs.getString("WORKPHONE"));
+                e.setAddress(rs.getString("ADDRESS"));
+                e.setPostalCode(rs.getString("POSTALCODE"));
+                e.setCity(rs.getString("CITY"));
+                e.setEmail(rs.getString("EMAIL"));
+                e.setID(rs.getString("ID_EMPLOYEES"));
+                Employees.add(e);
+            }
+        } catch(SQLException sqle){
+            System.out.println(sqle.getMessage());
+        }
+        return Employees;
+    }
 }
