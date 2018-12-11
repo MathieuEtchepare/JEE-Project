@@ -23,4 +23,9 @@ public class userSession {
     public void setPassword(String Password) {
         this.password = Password;
     }
+    
+    public boolean equals(userSession u)
+    {
+        return this.login.equals(u.login) && this.password.equals(u.password);
+    }
 }

@@ -1,21 +1,15 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package ctrl;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.DataAccess;
+import model.userSession;
 
-/**
- *
- * @author Mathieu Etchepare
- */
 public class Controller extends HttpServlet {
 
     /**
@@ -37,17 +31,31 @@ public class Controller extends HttpServlet {
         }
         else{
             if(login.equals("") || pwd.equals("")){
-            request.setAttribute("ErrMessage", "<p>One of the fields is empty! </p>");
+            request.setAttribute("ErrMessage", "<p>You must enter values in both fields</p>");
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
             }
-            else if(login.equals("admin") && pwd.equals("admin")){
-                request.getRequestDispatcher("WEB-INF/welcome.jsp").forward(request, response);
-            }
-            else {
-                request.setAttribute("ErrMessage", "<p>Your login or password is incorrect! </p>");
+            else
+            {
+                //Créer un utilisateur avec les identifiants rentrés
+                userSession user = new userSession();
+                user.setLogin(login);
+                user.setPassword(pwd);
+                
+                DataAccess dTransac = new DataAccess(); 
+                String query = "SELECT LOGIN, PWD FROM USERSESSION";
+                ArrayList <userSession> userlist = dTransac.getDBUsers(dTransac.getResultSet(dTransac.getStatement(dTransac.getConnection()), query));
+                for(userSession u : userlist)
+                {
+                    if(u.equals(user))
+                    {
+                        request.getRequestDispatcher("WEB-INF/welcome.jsp").forward(request, response);
+                    }
+                }
+                request.setAttribute("ErrMessage", "<p>Verify your login/password and try again! </p>");
                 request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
-            }
-            
+                
+                
+            } 
         } 
         out.close();
         }
