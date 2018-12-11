@@ -13,6 +13,10 @@
     </head>
     <body>
         <h1>Login</h1>
+        <%
+            String message = (String)request.getAttribute("ErrMessage");
+            if(message != null)out.println(message);
+            %>
         <form method="POST" action="Controller">
             <input type="text" name="login" placeholder="Login"/> <br/>
             <input type="password" name="pwd" placeholder="Password"/><br/>

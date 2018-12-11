@@ -29,15 +29,28 @@ public class Controller extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        try(PrintWriter out = response.getWriter()){
         String login = request.getParameter("login");
         String pwd = request.getParameter("pwd");
-        if(login == null && pwd == null){
+        if(login == null || pwd == null){
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         }
-        else if (login.equals("admin") && pwd.equals("admin")){
-            request.getRequestDispatcher("WEB-INF/welcome.jsp").forward(request, response);
+        else{
+            if(login.equals("") || pwd.equals("")){
+            request.setAttribute("ErrMessage", "<p>One of the fields is empty! </p>");
+            request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
+            }
+            else if(login.equals("admin") && pwd.equals("admin")){
+                request.getRequestDispatcher("WEB-INF/welcome.jsp").forward(request, response);
+            }
+            else {
+                request.setAttribute("ErrMessage", "<p>Your login or password is incorrect! </p>");
+                request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
+            }
+            
         } 
+        out.close();
+        }
         
         
     }
