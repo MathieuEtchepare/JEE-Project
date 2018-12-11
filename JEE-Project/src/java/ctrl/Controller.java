@@ -42,7 +42,7 @@ public class Controller extends HttpServlet {
                 user.setPassword(pwd);
                 
                 DataAccess dTransac = new DataAccess(); 
-                String query = "SELECT LOGIN, PWD FROM USERSESSION";
+                String query = "SELECT LOGIN, PWD FROM CREDENTIALS";
                 ArrayList <userSession> userlist = dTransac.getDBUsers(dTransac.getResultSet(dTransac.getStatement(dTransac.getConnection()), query));
                 for(userSession u : userlist)
                 {
