@@ -4,11 +4,23 @@
  * and open the template in the editor.
  */
 package model;
-
-/**
- *
- * @author bduto
- */
 public class userSession {
-    
+    private String login;
+    private String password;
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String Login) {
+        this.login = Login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String Password) {
+        this.password = Password;
+    }
 }
