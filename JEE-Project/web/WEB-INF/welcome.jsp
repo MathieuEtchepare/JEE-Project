@@ -9,22 +9,36 @@
 <%@page import="model.userSession"%>
 <%@page import="model.DataAccess"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/welcome.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    
+</head><body><div class="w3-container">
+        <h1>List of Employees</h1><br/>
 <% 
     DataAccess dTransac = new DataAccess(); 
     String query = "SELECT * FROM EMPLOYEES";
     ArrayList <Employee> Employees = dTransac.getDBEmployees(dTransac.getResultSet(dTransac.getStatement(dTransac.getConnection()), query));
+    out.println("<table class='w3-table w3-striped w3-centered'><form method ='POST'>");
+    out.println("<tr class='w3-blue'><th>Sel</th><th>NAME</th><th>FIRST NAME</th><th>HOME PHONE</th><th>MOBILE PHONE</th><th>WORK PHONE</th><th>ADDRESS</th><th>POSTAL CODE</th><th>CITY</th><th>EMAIL</th></tr>");
     for(Employee e : Employees)
     {
-        out.println(e.getName() + " " + e.getFirstName() + " " + e.getHomePhone() + " " + e.getMobilePhone() + " " + e.getWorkPhone() + " " + e.getAddress() + " " + e.getPostalCode() + " " + e.getCity() + " " + e.getEmail());
+        out.println("<tr>");
+        out.println("<td><input type='radio' name='edit' id='" + e.getID() + "'/> </td>");
+        out.println("<td>" + e.getName() + "</td><td>" + e.getFirstName() + "</td><td>" + e.getHomePhone() + "</td><td>" + e.getMobilePhone() + "</td><td>" + e.getWorkPhone() + "</td><td>" + e.getAddress() + "</td><td>" + e.getPostalCode() + "</td><td>" + e.getCity() + "</td><td>" + e.getEmail() + "</td>");
+        out.println("</tr>");
     }
+    
 %>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+</table>
+    </div>
+    <br/><br/>
+<div class="w3-container">
+    <input type="submit" name="sub" value="Delete" class="button"/>
+    <input type="submit" name="sub" value="Details" class="button"/>
+    <input type="submit" name="sub" value="Add" class="button"/>
+</div>
+    </form>
+</body>

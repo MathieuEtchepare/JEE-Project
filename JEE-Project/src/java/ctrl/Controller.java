@@ -26,10 +26,29 @@ public class Controller extends HttpServlet {
         try(PrintWriter out = response.getWriter()){
         String login = request.getParameter("login");
         String pwd = request.getParameter("pwd");
-        if(login == null || pwd == null){
+        String sub = request.getParameter("sub");
+        
+        if(sub != null){
+            request.setAttribute("id", request.getParameter("id"));
+            switch (sub) {
+                case "Delete":
+                    request.getRequestDispatcher("WEB-INF/delete.jsp").forward(request, response);
+                    break;
+                case "Add":
+                    request.setAttribute("choice", "Add");
+                    request.getRequestDispatcher("WEB-INF/complete_form.jsp").forward(request, response);
+                    break;
+                default:
+                    request.setAttribute("choice", "Details");
+                    request.getRequestDispatcher("WEB-INF/complete_form.jsp").forward(request, response);
+                    break;
+            }
+            
+        }
+        else if(login == null || pwd == null){
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         }
-        else{
+        else if(sub == null){
             if(login.equals("") || pwd.equals("")){
             request.setAttribute("ErrMessage", "<p>You must enter values in both fields</p>");
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
@@ -48,7 +67,8 @@ public class Controller extends HttpServlet {
                 {
                     if(u.equals(user))
                     {
-                        request.getRequestDispatcher("WEB-INF/welcome.jsp").forward(request, response);
+                       request.getRequestDispatcher("WEB-INF/welcome.jsp").forward(request, response);
+                        
                     }
                 }
                 request.setAttribute("ErrMessage", "<p>Verify your login/password and try again! </p>");
