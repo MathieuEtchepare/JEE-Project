@@ -16,13 +16,17 @@
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     
 </head><body>
-    <a href="Controller?sub=Disconnect"><input type="button" value="Log out"></a>
-    <div class="w3-container">
+    <p class="logout">
+        <font color="blue">Your session is active</font>
+        <a href="Controller?sub=Disconnect"><img style="width:20px;" src="img/logout.png" alt="Log out"></a>
+    </p>
         <h1>List of Employees</h1><br/>
 <% 
     DataAccess dTransac = new DataAccess(); 
     String query = "SELECT * FROM EMPLOYEES";
     ArrayList <Employee> Employees = dTransac.getDBEmployees(dTransac.getResultSet(dTransac.getStatement(dTransac.getConnection()), query));
+    if(Employees.isEmpty()) out.println("<p class='no_member'>The club has no member!</p>");
+    else{
     out.println("<table class='w3-table w3-striped w3-centered'><form method ='GET' action='Controller'>");
     out.println("<tr class='w3-blue'><th>Sel</th><th>NAME</th><th>FIRST NAME</th><th>HOME PHONE</th><th>MOBILE PHONE</th><th>WORK PHONE</th><th>ADDRESS</th><th>POSTAL CODE</th><th>CITY</th><th>EMAIL</th></tr>");
     for(Employee e : Employees)
@@ -44,3 +48,4 @@
 </div>
     </form>
 </body>
+<% } %>

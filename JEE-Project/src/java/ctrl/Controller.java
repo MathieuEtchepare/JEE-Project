@@ -76,7 +76,8 @@ public class Controller extends HttpServlet {
                         request.getRequestDispatcher("Controller?sub=success").forward(request, response);
                     case "Disconnect":{
                         session.setAttribute("user", null);
-                        request.getRequestDispatcher("Controller").forward(request, response);
+                        //response.sendRedirect("WEB-INF/goodbye.jsp");
+                        request.getRequestDispatcher("WEB-INF/goodbye.jsp").forward(request, response);
                         break;
                     }
                     default: 

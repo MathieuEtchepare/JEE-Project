@@ -5,12 +5,15 @@
  */
 package model;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -20,16 +23,28 @@ public class DataAccess {
     private Connection dbConn;
     private Statement stmt;
     private ResultSet rs;
-    private final String dbUrl = "jdbc:derby://localhost:1527/PROJET";
-    private final String user = "adm";
-    private final String pwd = "adm";
+    private String dbUrl;
+    private String user;
+    private String pwd;
 
-        public Connection getConnection() {
-        try{
+        public Connection getConnection() throws IOException {
+        InputStream input = null;
+            try {
+            Properties prop = new Properties();
+            //InputStream input;
+            ClassLoader c1 = Thread.currentThread().getContextClassLoader();
+            input = c1.getResourceAsStream("utils/db.properties");
+            prop.load(input);
+            dbUrl = prop.getProperty("dbUrl");
+            user = prop.getProperty("user");
+            pwd = prop.getProperty("pwd");
+            //Class.forName("org.apache.derby.jdbc.ClientDriver");
+            //Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
             dbConn = DriverManager.getConnection(dbUrl, user, pwd);
-        } catch(SQLException sqle){
-            System.out.println(sqle.getMessage());
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
         }
+        input.close();
         return dbConn;
     }
     
@@ -90,7 +105,7 @@ public class DataAccess {
         return Employees;
     }
     
-    public void executeUpdate(String query){
+    public void executeUpdate(String query) throws IOException{
         try {
             getStatement(getConnection()).executeUpdate(query);
         } catch (SQLException ex) {
