@@ -1,9 +1,3 @@
-<%-- 
-    Document   : welcome
-    Created on : 11 déc. 2018, 09:14:27
-    Author     : Mathieu Etchepare
---%>
-
 <%@page import="model.Employee"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.userSession"%>
@@ -22,20 +16,25 @@
     </p>
         <h1>List of Employees</h1><br/>
 <% 
+    //Print all the employees
     DataAccess dTransac = new DataAccess(); 
     String query = "SELECT * FROM EMPLOYEES";
     ArrayList <Employee> Employees = dTransac.getDBEmployees(dTransac.getResultSet(dTransac.getStatement(dTransac.getConnection()), query));
-    if(Employees.isEmpty()) out.println("<p class='no_member'>The club has no member!</p>");
+    //If there are no employees
+    if(Employees.isEmpty()) 
+        out.println("<p class='no_member'>The club has no member!</p>");
     else{
-    out.println("<table class='w3-table w3-striped w3-centered'><form method ='GET' action='Controller'>");
-    out.println("<tr class='w3-blue'><th>Sel</th><th>NAME</th><th>FIRST NAME</th><th>HOME PHONE</th><th>MOBILE PHONE</th><th>WORK PHONE</th><th>ADDRESS</th><th>POSTAL CODE</th><th>CITY</th><th>EMAIL</th></tr>");
-    for(Employee e : Employees)
-    {
-        out.println("<tr>");
-        out.println("<td><input type='radio' name='edit' value='" + e.getID() + "'/> </td>");
-        out.println("<td>" + e.getName() + "</td><td>" + e.getFirstName() + "</td><td>" + e.getHomePhone() + "</td><td>" + e.getMobilePhone() + "</td><td>" + e.getWorkPhone() + "</td><td>" + e.getAddress() + "</td><td>" + e.getPostalCode() + "</td><td>" + e.getCity() + "</td><td>" + e.getEmail() + "</td>");
-        out.println("</tr>");
-    }
+        //Else print the details of each employees
+        out.println("<table class='w3-table w3-striped w3-centered'><form method ='GET' action='Controller'>");
+        out.println("<tr class='w3-blue'><th>Sel</th><th>NAME</th><th>FIRST NAME</th><th>HOME PHONE</th><th>MOBILE PHONE</th><th>WORK PHONE</th><th>ADDRESS</th><th>POSTAL CODE</th><th>CITY</th><th>EMAIL</th></tr>");
+        for(Employee e : Employees)
+        {
+            out.println("<tr>");
+            //Put the id in the radio button
+            out.println("<td><input type='radio' name='edit' value='" + e.getID() + "'/> </td>");
+            out.println("<td>" + e.getName() + "</td><td>" + e.getFirstName() + "</td><td>" + e.getHomePhone() + "</td><td>" + e.getMobilePhone() + "</td><td>" + e.getWorkPhone() + "</td><td>" + e.getAddress() + "</td><td>" + e.getPostalCode() + "</td><td>" + e.getCity() + "</td><td>" + e.getEmail() + "</td>");
+            out.println("</tr>");
+        }
     
 %>
 </table>

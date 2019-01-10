@@ -48,13 +48,15 @@ public class Controller extends HttpServlet {
         String query;
         DataAccess dTransac = new DataAccess();
         
+        //IF someone is connected
         if(user != null){
             if(sub != null){
-            
+                //If he make a chose
                 switch (sub) {
                     case "Delete":
                         query = "DELETE FROM EMPLOYEES WHERE ID_EMPLOYEES=" + id;
                         dTransac.executeUpdate(query);
+                        //Redirect to the controller with sub = succes so he will redirect to the form 
                         request.getRequestDispatcher("Controller?sub=success").forward(request, response);
                     case "Add":
                         request.setAttribute("choice", "Add");
@@ -76,7 +78,6 @@ public class Controller extends HttpServlet {
                         request.getRequestDispatcher("Controller?sub=success").forward(request, response);
                     case "Disconnect":{
                         session.setAttribute("user", null);
-                        //response.sendRedirect("WEB-INF/goodbye.jsp");
                         request.getRequestDispatcher("WEB-INF/goodbye.jsp").forward(request, response);
                         break;
                     }
@@ -85,12 +86,15 @@ public class Controller extends HttpServlet {
                         break;
                 }
             } 
-        }
+        }//If no user is connected
         else if(login == null && pwd == null){
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
         }
+        //If the user enter login and password
         else{
+            //If one of the login or password is empty
             if(login.equals("") || pwd.equals("")){
+                //This message will be print before the form 
             request.setAttribute("ErrMessage", "<p>You must enter values in both fields</p>");
             request.getRequestDispatcher("WEB-INF/login.jsp").forward(request, response);
             }
@@ -101,10 +105,12 @@ public class Controller extends HttpServlet {
                 user.setLogin(login);
                 user.setPassword(pwd);
                 
+                //Verify than the user is correct (in the bdd)
                 query = "SELECT LOGIN, PWD FROM CREDENTIALS";
                 ArrayList <userSession> userlist = dTransac.getDBUsers(dTransac.getResultSet(dTransac.getStatement(dTransac.getConnection()), query));
                 for(userSession u : userlist)
                 {
+                    //If the user is correct
                     if(u.equals(user))
                     {
                        session.setAttribute("user", user);

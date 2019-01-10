@@ -14,6 +14,7 @@
     <body>
         <h1>Login</h1>
         <%
+            //If he already try to connect but fail, there will be something in ErrMessage
             String message = (String)request.getAttribute("ErrMessage");
             if(message != null)out.println(message);
             %>

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : complete_form.jsp
-    Created on : 14 déc. 2018, 08:40:40
-    Author     : Kilian
---%>
-
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.Employee"%>
 <%@page import="model.Employee"%>
@@ -11,19 +5,20 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
+    //Search in the bdd all the information about the employees we want
     DataAccess dTransac = new DataAccess(); 
+    //Find the id than the user select
     String id = (String) request.getAttribute("id");
     Employee e = null;
     if(id != null){
-    String choice = (String) request.getAttribute("choice");
-    String query = "SELECT * FROM EMPLOYEES WHERE ID_EMPLOYEES = " + id;
-    //" + session.getAttribute(id_employees);
-    
-    ArrayList <Employee> Employees = dTransac.getDBEmployees(dTransac.getResultSet(dTransac.getStatement(dTransac.getConnection()), query));
-    e = Employees.get(0);
-    
-    request.setAttribute("id", id);
-    request.setAttribute("details", choice);
+        String choice = (String) request.getAttribute("choice");
+        String query = "SELECT * FROM EMPLOYEES WHERE ID_EMPLOYEES = " + id;
+
+        ArrayList <Employee> Employees = dTransac.getDBEmployees(dTransac.getResultSet(dTransac.getStatement(dTransac.getConnection()), query));
+        e = Employees.get(0);
+
+        request.setAttribute("id", id);
+        request.setAttribute("details", choice);
     }
     
 %>
@@ -32,7 +27,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
-        <title>JSP Page</title>
+        <title>Complete_Form</title>
     </head>
     <body>
     <a href="Controller?sub=Disconnect"><input type="button" value="Log Out"></a>
